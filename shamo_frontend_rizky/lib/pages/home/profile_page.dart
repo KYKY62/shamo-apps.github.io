@@ -47,7 +47,8 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () => Navigator.pushNamedAndRemoveUntil(
+                      context, '/signPage', (route) => false),
                   child: Image.asset('assets/button_exit.png', width: 20),
                 )
               ],
@@ -57,9 +58,75 @@ class ProfilePage extends StatelessWidget {
       );
     }
 
+    Widget contentItems(String text) {
+      return Container(
+        margin: EdgeInsets.only(top: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              text,
+              style: SecondaryTextStyle.copyWith(
+                fontSize: 13,
+                fontWeight: regular,
+              ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              color: SecondaryTextColor,
+            ),
+          ],
+        ),
+      );
+    }
+
+    Widget content() {
+      return Expanded(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultMargin,
+            vertical: 20,
+          ),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: BackgroundColor3,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Account",
+                style: PrimaryTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: semiBold,
+                ),
+              ),
+              GestureDetector(
+                  onTap: () => Navigator.pushNamed(context, '/editProfile'),
+                  child: contentItems("Edit Profile")),
+              contentItems("Your Orders"),
+              contentItems("Help"),
+              SizedBox(height: 30),
+              Text(
+                "General",
+                style: PrimaryTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: semiBold,
+                ),
+              ),
+              contentItems("Privacy & Policy"),
+              contentItems("Term of Service"),
+              contentItems("Rate App"),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Column(
       children: [
         header(),
+        content(),
       ],
     );
   }
