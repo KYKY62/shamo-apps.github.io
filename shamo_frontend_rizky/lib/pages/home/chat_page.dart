@@ -1,0 +1,106 @@
+// ignore_for_file: use_key_in_widget_constructors, non_constant_identifier_names, prefer_const_constructors
+
+import 'package:flutter/material.dart';
+import 'package:shamo_frontend_rizky/widgets/chat_tile.dart';
+
+import '../../utils/theme.dart';
+
+class ChatPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    Widget Header() {
+      return AppBar(
+        backgroundColor: BackgroundColor1,
+        centerTitle: true,
+        title: Text(
+          "Message Support",
+          style: PrimaryTextStyle.copyWith(
+            fontSize: 18,
+            fontWeight: medium,
+          ),
+        ),
+        elevation: 0,
+        automaticallyImplyLeading: false,
+      );
+    }
+
+    Widget EmptyMsg() {
+      return Expanded(
+        child: Container(
+          width: double.infinity,
+          color: BackgroundColor3,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/image_nomessage.png',
+                width: 80,
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Opss no message yet?",
+                style: PrimaryTextStyle.copyWith(
+                  fontSize: 16,
+                  fontWeight: medium,
+                ),
+              ),
+              SizedBox(height: 12),
+              Text(
+                "You have never done a transaction",
+                style: SecondaryTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: regular,
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                width: 152,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: PrimaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Explore Store",
+                      style: PrimaryTextStyle.copyWith(
+                        fontSize: 16,
+                        fontWeight: medium,
+                      ),
+                    )),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget content() {
+      return Expanded(
+          child: Container(
+        width: double.infinity,
+        color: BackgroundColor3,
+        child: ListView(
+          padding: EdgeInsets.symmetric(
+            horizontal: defaultMargin,
+          ),
+          children: [
+            ChatTile(),
+            ChatTile(),
+            ChatTile(),
+            ChatTile(),
+            ChatTile(),
+          ],
+        ),
+      ));
+    }
+
+    return Column(
+      children: [
+        Header(),
+        content(),
+      ],
+    );
+  }
+}
