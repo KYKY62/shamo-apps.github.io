@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:shamo_frontend_rizky/pages/detail_chat_page.dart';
 import 'package:shamo_frontend_rizky/pages/edit_profile_page.dart';
+import 'package:shamo_frontend_rizky/pages/product_page.dart';
 
 import './pages/signin_page.dart';
 import './pages/splash_page.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/mainPage': (context) => MainPage(),
         '/DetailChat': (context) => DetailChat(),
         '/editProfile': (context) => EditProfile(),
+        '/detailProduct': (context) => DetailProduct(),
       },
     );
   }
