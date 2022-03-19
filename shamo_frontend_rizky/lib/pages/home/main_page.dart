@@ -22,7 +22,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     Widget CartButton() {
       return FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, '/cartPage'),
         backgroundColor: SecondaryColor,
         child: Image.asset(
           'assets/icon_cart.png',

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shamo_frontend_rizky/pages/cart_page.dart';
 import 'package:shamo_frontend_rizky/pages/detail_chat_page.dart';
 import 'package:shamo_frontend_rizky/pages/edit_profile_page.dart';
 import 'package:shamo_frontend_rizky/pages/product_page.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/DetailChat': (context) => DetailChat(),
         '/editProfile': (context) => EditProfile(),
         '/detailProduct': (context) => DetailProduct(),
+        '/cartPage': (context) => CartPage(),
       },
     );
   }
