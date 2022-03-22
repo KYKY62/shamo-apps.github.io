@@ -1,21 +1,16 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-
 import '../../utils/theme.dart';
 
-class WishlistCard extends StatelessWidget {
-  const WishlistCard({Key? key}) : super(key: key);
+class CheckoutCard extends StatelessWidget {
+  const CheckoutCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.only(
-        top: 10,
-        bottom: 14,
-        left: 12,
-        right: 20,
+      margin: EdgeInsets.only(top: 12),
+      padding: EdgeInsets.symmetric(
+        vertical: 20,
+        horizontal: 12,
       ),
       decoration: BoxDecoration(
         color: BackgroundColor4,
@@ -36,11 +31,12 @@ class WishlistCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Terrex Urban Low Urban",
+                  "Terrex Urban Low",
                   style: PrimaryTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: semiBold,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   "\$143,98",
@@ -52,7 +48,13 @@ class WishlistCard extends StatelessWidget {
               ],
             ),
           ),
-          Image.asset('assets/button_wishlist_active.png', width: 34)
+          Text(
+            "2 Items",
+            style: SecondaryTextStyle.copyWith(
+              fontSize: 12,
+              fontWeight: regular,
+            ),
+          )
         ],
       ),
     );

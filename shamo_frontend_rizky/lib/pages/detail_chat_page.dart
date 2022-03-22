@@ -80,7 +80,7 @@ class DetailChat extends StatelessWidget {
                     height: 45,
                     padding: EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 12,
+                      // vertical: 12,
                     ),
                     decoration: BoxDecoration(
                       color: BackgroundColor4,

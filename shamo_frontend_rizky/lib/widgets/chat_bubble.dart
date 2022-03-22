@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, must_be_immutable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 
@@ -80,11 +80,14 @@ class ChatBubble extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text(
-                    "Add to Cart",
-                    style: PurpleTextStyle.copyWith(
-                      fontSize: 14,
-                      fontWeight: regular,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, '/cartPage'),
+                    child: Text(
+                      "Add to Cart",
+                      style: PurpleTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: regular,
+                      ),
                     ),
                   ),
                 ),
@@ -142,12 +145,10 @@ class ChatBubble extends StatelessWidget {
                     ),
                     color: isSender ? BackgroundColor5 : BackgroundColor4,
                   ),
-                  child: Expanded(
-                    child: Text(
-                      text,
-                      style: PrimaryTextStyle.copyWith(
-                          fontSize: 14, fontWeight: regular),
-                    ),
+                  child: Text(
+                    text,
+                    style: PrimaryTextStyle.copyWith(
+                        fontSize: 14, fontWeight: regular),
                   ),
                 ),
               )

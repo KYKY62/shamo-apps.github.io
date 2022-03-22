@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:shamo_frontend_rizky/widgets/cart_card.dart';
 import '../../utils/theme.dart';
@@ -111,7 +113,7 @@ class CartPage extends StatelessWidget {
                 horizontal: defaultMargin,
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(context, '/checkout'),
                 style: TextButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     backgroundColor: PrimaryColor,
