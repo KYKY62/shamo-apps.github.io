@@ -26,7 +26,7 @@ class CheckOutPage extends StatelessWidget {
           ),
           SizedBox(height: 12),
           CheckoutCard(),
-
+          CheckoutCard(),
           // todo Addres Detail
           Container(
             margin: EdgeInsets.only(top: 30),
@@ -224,7 +224,10 @@ class CheckOutPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, "/checkoutSucces", (route) => false);
+                    },
                     child: Text(
                       "Checkout Now",
                       style: PrimaryTextStyle.copyWith(
