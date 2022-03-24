@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shamo_frontend_rizky/pages/cart_page.dart';
 import 'package:shamo_frontend_rizky/pages/checkout_page.dart';
 import 'package:shamo_frontend_rizky/pages/checkout_succes.dart';
 import 'package:shamo_frontend_rizky/pages/detail_chat_page.dart';
 import 'package:shamo_frontend_rizky/pages/edit_profile_page.dart';
 import 'package:shamo_frontend_rizky/pages/product_page.dart';
+import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
 
 import './pages/signin_page.dart';
 import './pages/splash_page.dart';
@@ -22,20 +24,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (context) => SplashPage(),
-        '/signPage': (context) => SigninPage(),
-        '/signupPage': (context) => SignUpPage(),
-        '/mainPage': (context) => MainPage(),
-        '/DetailChat': (context) => DetailChat(),
-        '/editProfile': (context) => EditProfile(),
-        '/detailProduct': (context) => DetailProduct(),
-        '/cartPage': (context) => CartPage(),
-        '/checkout': (context) => CheckOutPage(),
-        '/checkoutSucces': (context) => CheckoutSucces(),
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => authProvider(),
+        )
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: {
+          '/': (context) => SplashPage(),
+          '/signPage': (context) => SigninPage(),
+          '/signupPage': (context) => SignUpPage(),
+          '/mainPage': (context) => MainPage(),
+          '/DetailChat': (context) => DetailChat(),
+          '/editProfile': (context) => EditProfile(),
+          '/detailProduct': (context) => DetailProduct(),
+          '/cartPage': (context) => CartPage(),
+          '/checkout': (context) => CheckOutPage(),
+          '/checkoutSucces': (context) => CheckoutSucces(),
+        },
+      ),
     );
   }
 }
