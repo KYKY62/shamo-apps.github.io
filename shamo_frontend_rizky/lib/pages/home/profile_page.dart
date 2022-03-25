@@ -1,12 +1,18 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/user_model.dart';
+import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
 
 import '../../utils/theme.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    authProvider AuthProvider = Provider.of<authProvider>(context);
+    UserModel user = AuthProvider.user;
+
     Widget header() {
       return AppBar(
         automaticallyImplyLeading: false,
@@ -20,9 +26,11 @@ class ProfilePage extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Image.asset(
-                  'assets/profile_default.png',
-                  width: 64,
+                ClipOval(
+                  child: Image.network(
+                    user.profilephotourl,
+                    width: 64,
+                  ),
                 ),
                 SizedBox(width: 16),
                 Expanded(
@@ -30,14 +38,14 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Halo, Alex",
+                        "Halo, ${user.name}",
                         style: PrimaryTextStyle.copyWith(
                           fontSize: 24,
                           fontWeight: semiBold,
                         ),
                       ),
                       Text(
-                        "@alexkeinn",
+                        "@${user.username}",
                         style: SubTextStyle.copyWith(
                           fontSize: 16,
                           fontWeight: regular,
@@ -102,8 +110,9 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                  onTap: () => Navigator.pushNamed(context, '/editProfile'),
-                  child: contentItems("Edit Profile")),
+                onTap: () => Navigator.pushNamed(context, '/editProfile'),
+                child: contentItems("Edit Profile"),
+              ),
               contentItems("Your Orders"),
               contentItems("Help"),
               SizedBox(height: 30),

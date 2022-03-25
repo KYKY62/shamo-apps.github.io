@@ -40,7 +40,7 @@ class _SignUpPageState extends State<SignUpPage> {
           SnackBar(
             backgroundColor: AlertColor,
             content: Text(
-              "Gagal Register!",
+              "Gagal Register / Email sudah Terdaftar",
               textAlign: TextAlign.center,
               style: PrimaryTextStyle,
             ),
@@ -307,7 +307,7 @@ class _SignUpPageState extends State<SignUpPage> {
             GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Text(
-                "Sign Up",
+                "Sign In",
                 style:
                     PurpleTextStyle.copyWith(fontSize: 12, fontWeight: medium),
               ),

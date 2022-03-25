@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/user_model.dart';
+import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
 
 import '../../utils/theme.dart';
 
@@ -9,6 +12,9 @@ class EditProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    authProvider AuthProvider = Provider.of<authProvider>(context);
+    UserModel user = AuthProvider.user;
+
     Widget nameInput() {
       return Container(
         margin: EdgeInsets.only(top: defaultMargin),
@@ -25,7 +31,7 @@ class EditProfile extends StatelessWidget {
             TextFormField(
               style: PrimaryTextStyle,
               decoration: InputDecoration(
-                  hintText: "Alex keinnzal",
+                  hintText: user.name,
                   hintStyle: PrimaryTextStyle,
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
@@ -53,7 +59,7 @@ class EditProfile extends StatelessWidget {
             TextFormField(
               style: PrimaryTextStyle,
               decoration: InputDecoration(
-                  hintText: "@alexkeinn",
+                  hintText: "@${user.username}",
                   hintStyle: PrimaryTextStyle,
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
@@ -81,7 +87,7 @@ class EditProfile extends StatelessWidget {
             TextFormField(
               style: PrimaryTextStyle,
               decoration: InputDecoration(
-                hintText: "alex.kein@gmail.com",
+                hintText: user.email,
                 hintStyle: PrimaryTextStyle,
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
@@ -111,7 +117,8 @@ class EditProfile extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage('assets/profile_default.png'),
+                    fit: BoxFit.fill,
+                    image: NetworkImage(user.profilephotourl),
                   ),
                 ),
               ),
