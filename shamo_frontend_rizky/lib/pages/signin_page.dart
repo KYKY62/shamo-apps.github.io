@@ -52,6 +52,9 @@ class _SigninPageState extends State<SigninPage> {
           ),
         );
       }
+      setState(() {
+        isLoading = false;
+      });
     }
 
     Widget header() {
