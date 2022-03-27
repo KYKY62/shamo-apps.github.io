@@ -86,7 +86,7 @@ class _DetailProductState extends State<DetailProduct> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.pushNamed(context, '/cartPage'),
                     child: Text(
                       "View My Cart",
                       style: PrimaryTextStyle.copyWith(
