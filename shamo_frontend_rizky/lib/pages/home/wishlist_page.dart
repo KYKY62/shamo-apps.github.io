@@ -1,6 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors, non_constant_identifier_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
 import 'package:shamo_frontend_rizky/widgets/wishlist_card.dart';
 
 import '../../utils/theme.dart';
@@ -8,6 +10,8 @@ import '../../utils/theme.dart';
 class WishlistPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    WishListProvider wishlistprovider = Provider.of<WishListProvider>(context);
+
     Widget Header() {
       return AppBar(
         backgroundColor: BackgroundColor4,
@@ -60,7 +64,7 @@ class WishlistPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.pushNamed(context, '/mainPage'),
                   child: Text(
                     "Explore Store",
                     style: PrimaryTextStyle.copyWith(
@@ -84,10 +88,11 @@ class WishlistPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: defaultMargin,
           ),
-          children: [
-            WishlistCard(),
-            WishlistCard(),
-          ],
+          children: wishlistprovider.wishlist
+              .map(
+                (product) => WishlistCard(product),
+              )
+              .toList(),
         ),
       ));
     }
@@ -96,7 +101,7 @@ class WishlistPage extends StatelessWidget {
       children: [
         Header(),
         // WishEmpty(),
-        content(),
+        wishlistprovider.wishlist.length == 0 ? WishEmpty() : content(),
       ],
     );
   }

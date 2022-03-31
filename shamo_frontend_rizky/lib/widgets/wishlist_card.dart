@@ -1,14 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
 
 import '../../utils/theme.dart';
 
 class WishlistCard extends StatelessWidget {
-  const WishlistCard({Key? key}) : super(key: key);
+  final ProductModel product;
+  WishlistCard(this.product);
 
   @override
   Widget build(BuildContext context) {
+    WishListProvider wishlistprovider = Provider.of<WishListProvider>(context);
     return Container(
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.only(
@@ -25,8 +30,8 @@ class WishlistCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              'assets/image_shoes.png',
+            child: Image.network(
+              product.galleries[0].url,
               width: 60,
             ),
           ),
@@ -36,14 +41,14 @@ class WishlistCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Terrex Urban Low Urban",
+                  product.name,
                   style: PrimaryTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: semiBold,
                   ),
                 ),
                 Text(
-                  "\$143,98",
+                  "\$${product.price}",
                   style: PriceTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: regular,
@@ -52,7 +57,10 @@ class WishlistCard extends StatelessWidget {
               ],
             ),
           ),
-          Image.asset('assets/button_wishlist_active.png', width: 34)
+          GestureDetector(
+            onTap: () => wishlistprovider.setProduct(product),
+            child: Image.asset('assets/button_wishlist_active.png', width: 34),
+          )
         ],
       ),
     );

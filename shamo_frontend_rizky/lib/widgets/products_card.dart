@@ -1,16 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/pages/product_page.dart';
 
 import '../../utils/theme.dart';
 
 class ProductsCard extends StatelessWidget {
-  const ProductsCard({Key? key}) : super(key: key);
+  final ProductModel product;
+
+  ProductsCard(this.product);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/detailProduct'),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailProduct(product),
+        ),
+      ),
       child: Container(
         width: 215,
         height: 278,
@@ -23,8 +32,8 @@ class ProductsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: defaultMargin),
-            Image.asset(
-              'assets/image_shoes.png',
+            Image.network(
+              product.galleries[0].url,
               width: 215,
               height: 150,
               fit: BoxFit.cover,
@@ -35,23 +44,24 @@ class ProductsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hiking",
+                    product.category.name,
                     style: SecondaryTextStyle.copyWith(
                         fontSize: 12, fontWeight: regular),
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "COURT VISION 2.0 ",
+                    product.name,
                     style: TextStyle(
                       color: Color(0xff2E2E2E),
                       fontSize: 18,
                       fontWeight: semiBold,
                     ),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "\$58,67",
+                    "\$${product.price}",
                     style: PriceTextStyle.copyWith(
                         fontSize: 14, fontWeight: medium),
                   )

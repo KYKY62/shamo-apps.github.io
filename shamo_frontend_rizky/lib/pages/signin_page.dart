@@ -33,7 +33,8 @@ class _SigninPageState extends State<SigninPage> {
         email: emailcontroller.text,
         password: passwordcontroller.text,
       )) {
-        Navigator.pushNamed(context, '/mainPage');
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/mainPage', (route) => false);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

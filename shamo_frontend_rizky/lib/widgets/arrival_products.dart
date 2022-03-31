@@ -1,16 +1,24 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/pages/product_page.dart';
 
 import '../../utils/theme.dart';
 
 class ArrivalProducts extends StatelessWidget {
-  const ArrivalProducts({Key? key}) : super(key: key);
+  final ProductModel product;
+  ArrivalProducts(this.product);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/detailProduct'),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailProduct(product),
+        ),
+      ),
       child: Container(
         margin: EdgeInsets.only(
           left: defaultMargin,
@@ -21,8 +29,8 @@ class ArrivalProducts extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'assets/image_shoes.png',
+              child: Image.network(
+                product.galleries[0].url,
                 width: 120,
                 height: 120,
                 fit: BoxFit.cover,
@@ -34,7 +42,7 @@ class ArrivalProducts extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Football",
+                    product.category.name,
                     style: SecondaryTextStyle.copyWith(
                       fontSize: 12,
                       fontWeight: regular,
@@ -42,15 +50,17 @@ class ArrivalProducts extends StatelessWidget {
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "Predator 20.3 Firm Ground ",
+                    product.name,
                     style: PrimaryTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
                     ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   SizedBox(height: 6),
                   Text(
-                    "\$68,47",
+                    "\$${product.price}",
                     style: PriceTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: medium,

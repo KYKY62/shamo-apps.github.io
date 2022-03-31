@@ -2,10 +2,16 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
 
 import '../../utils/theme.dart';
 
 class DetailProduct extends StatefulWidget {
+  final ProductModel product;
+  DetailProduct(this.product);
+
   @override
   State<DetailProduct> createState() => _DetailProductState();
 }
@@ -19,21 +25,22 @@ class _DetailProductState extends State<DetailProduct> {
 
   List FamiliarShoes = [
     'assets/image_shoes.png',
-    'assets/image_shoes.png',
-    'assets/image_shoes.png',
-    'assets/image_shoes.png',
-    'assets/image_shoes.png',
-    'assets/image_shoes.png',
-    'assets/image_shoes.png',
-    'assets/image_shoes.png',
-    'assets/image_shoes.png'
+    'assets/image_shoes1.png',
+    'assets/image_shoes2.png',
+    'assets/image_shoes3.png',
+    'assets/image_shoes4.png',
+    'assets/image_shoes5.png',
+    'assets/image_shoes6.png',
+    'assets/image_shoes7.png',
+    'assets/image_shoes8.png'
   ];
 
   int currentindex = 0;
-  bool isWishlist = false;
 
   @override
   Widget build(BuildContext context) {
+    WishListProvider wislistprovider = Provider.of<WishListProvider>(context);
+
     Future<void> showDialogSucces() async {
       return showDialog(
         context: context,
@@ -153,9 +160,9 @@ class _DetailProductState extends State<DetailProduct> {
             ),
           ),
           CarouselSlider(
-            items: images
-                .map((image) => Image.asset(
-                      image,
+            items: widget.product.galleries
+                .map((image) => Image.network(
+                      image.url,
                       width: MediaQuery.of(context).size.width,
                       height: 310,
                       fit: BoxFit.cover,
@@ -172,7 +179,7 @@ class _DetailProductState extends State<DetailProduct> {
           SizedBox(height: 20),
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: images.map(
+              children: widget.product.galleries.map(
                 (e) {
                   index++;
                   return indicator(index);
@@ -209,14 +216,14 @@ class _DetailProductState extends State<DetailProduct> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "TERREX URBAN LOW",
+                          widget.product.name,
                           style: PrimaryTextStyle.copyWith(
                             fontWeight: semiBold,
                             fontSize: 18,
                           ),
                         ),
                         Text(
-                          "Hiking",
+                          widget.product.category.name,
                           style: SecondaryTextStyle.copyWith(
                             fontWeight: regular,
                             fontSize: 12,
@@ -227,34 +234,52 @@ class _DetailProductState extends State<DetailProduct> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      setState(() {
-                        isWishlist = !isWishlist;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor:
-                              isWishlist ? SecondaryColor : AlertColor,
-                          content: Text(
-                            isWishlist
-                                ? "Has been added to the Wishlist"
-                                : "Has been removed from the Wishlist",
-                            textAlign: TextAlign.center,
-                            style: PrimaryTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: regular,
+                      wislistprovider.setProduct(widget.product);
+
+                      if (wislistprovider.iswishlist(widget.product)) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: SecondaryColor,
+                            content: Text(
+                              "Has been added to the Wishlist",
+                              textAlign: TextAlign.center,
+                              style: PrimaryTextStyle.copyWith(
+                                fontSize: 12,
+                                fontWeight: regular,
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8),
+                              ),
                             ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: AlertColor,
+                            content: Text(
+                              "Has been removed from the Wishlist",
+                              textAlign: TextAlign.center,
+                              style: PrimaryTextStyle.copyWith(
+                                fontSize: 12,
+                                fontWeight: regular,
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8),
+                              ),
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                     child: Image.asset(
-                      isWishlist
+                      wislistprovider.iswishlist(widget.product)
                           ? 'assets/button_wishlist_active.png'
                           : 'assets/button_wishlist.png',
                       width: 46,
@@ -281,7 +306,7 @@ class _DetailProductState extends State<DetailProduct> {
                         fontSize: 14,
                         fontWeight: regular,
                       )),
-                  Text("\$143,98",
+                  Text("\$${widget.product.price}",
                       style: PriceTextStyle.copyWith(
                         fontSize: 16,
                         fontWeight: semiBold,
@@ -291,6 +316,7 @@ class _DetailProductState extends State<DetailProduct> {
             ),
             // todo : Description
             Container(
+              width: double.infinity,
               margin: EdgeInsets.only(
                 top: 30,
                 left: defaultMargin,
@@ -308,7 +334,7 @@ class _DetailProductState extends State<DetailProduct> {
                   ),
                   SizedBox(height: 12),
                   Text(
-                    "Unpaved trails and mixed surfaces are easy when you have the traction and support you need. Casual enough for the daily commute.",
+                    widget.product.description,
                     style: SubTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: light,

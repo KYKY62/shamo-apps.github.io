@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo_frontend_rizky/models/user_model.dart';
 import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
+import 'package:shamo_frontend_rizky/provider/product_provider.dart';
 import 'package:shamo_frontend_rizky/widgets/arrival_products.dart';
 import 'package:shamo_frontend_rizky/widgets/products_card.dart';
 
@@ -19,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     authProvider AuthProvider = Provider.of<authProvider>(context);
     UserModel user = AuthProvider.user;
+    ProductProvider productProvider = Provider.of<ProductProvider>(context);
 
     Widget header() {
       return Container(
@@ -168,11 +170,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               SizedBox(width: defaultMargin),
               Row(
-                children: [
-                  ProductsCard(),
-                  ProductsCard(),
-                  ProductsCard(),
-                ],
+                children: productProvider.products
+                    .map((product) => ProductsCard(product))
+                    .toList(),
               )
             ],
           ),
@@ -198,11 +198,11 @@ class _HomePageState extends State<HomePage> {
       return Container(
         margin: EdgeInsets.only(top: 14),
         child: Column(
-          children: [
-            ArrivalProducts(),
-            ArrivalProducts(),
-            ArrivalProducts(),
-          ],
+          children: productProvider.products
+              .map(
+                (product) => ArrivalProducts(product),
+              )
+              .toList(),
         ),
       );
     }
