@@ -1,20 +1,26 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/cart_model.dart';
+import 'package:shamo_frontend_rizky/provider/cart_provider.dart';
 import '../../utils/theme.dart';
 
 class CartCard extends StatelessWidget {
-  const CartCard({Key? key}) : super(key: key);
+  final CartModel cart;
+
+  CartCard(this.cart);
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartprovider = Provider.of<CartProvider>(context);
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 10,
       ),
-      height: 110,
+      height: 120,
       margin: EdgeInsets.only(
         top: defaultMargin,
         left: defaultMargin,
@@ -31,8 +37,8 @@ class CartCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  'assets/image_shoes.png',
+                child: Image.network(
+                  cart.product.galleries[0].url,
                   width: 60,
                 ),
               ),
@@ -42,14 +48,14 @@ class CartCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Terrex Urban Low",
+                      cart.product.name,
                       style: PrimaryTextStyle.copyWith(
                         fontSize: 14,
                         fontWeight: semiBold,
                       ),
                     ),
                     Text(
-                      "\$143,98",
+                      "\$${cart.product.price}",
                       style: PriceTextStyle.copyWith(
                         fontSize: 14,
                         fontWeight: regular,
@@ -61,14 +67,16 @@ class CartCard extends StatelessWidget {
               Column(
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      cartprovider.addQuantity(cart.id);
+                    },
                     child: Image.asset(
                       'assets/button_tambah.png',
                       width: 16,
                     ),
                   ),
                   Text(
-                    "2",
+                    cart.quantity.toString(),
                     style: PrimaryTextStyle.copyWith(
                       fontSize: 14,
                       fontWeight: medium,
@@ -76,7 +84,9 @@ class CartCard extends StatelessWidget {
                   ),
                   SizedBox(width: 9),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      cartprovider.reduceQuantity(cart.id);
+                    },
                     child: Image.asset(
                       'assets/button_min.png',
                       width: 16,
@@ -87,21 +97,24 @@ class CartCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 12),
-          Row(
-            children: [
-              Image.asset(
-                'assets/icon_remove.png',
-                width: 10,
-              ),
-              SizedBox(width: 4),
-              Text(
-                "Remove",
-                style: AlertTextStyle.copyWith(
-                  fontSize: 14,
-                  fontWeight: light,
+          GestureDetector(
+            onTap: (() => cartprovider.removeCart(cart.id)),
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/icon_remove.png',
+                  width: 10,
                 ),
-              ),
-            ],
+                SizedBox(width: 4),
+                Text(
+                  "Remove",
+                  style: AlertTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: light,
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),

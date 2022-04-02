@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/provider/cart_provider.dart';
 import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
 
 import '../../utils/theme.dart';
@@ -40,6 +41,7 @@ class _DetailProductState extends State<DetailProduct> {
   @override
   Widget build(BuildContext context) {
     WishListProvider wislistprovider = Provider.of<WishListProvider>(context);
+    CartProvider cartprovider = Provider.of<CartProvider>(context);
 
     Future<void> showDialogSucces() async {
       return showDialog(
@@ -409,6 +411,7 @@ class _DetailProductState extends State<DetailProduct> {
                       ),
                       child: TextButton(
                           onPressed: () {
+                            cartprovider.addCart(widget.product);
                             showDialogSucces();
                           },
                           child: Text(

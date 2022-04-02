@@ -1,14 +1,16 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, non_constant_identifier_names, use_key_in_widget_constructors, prefer_is_empty
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/provider/cart_provider.dart';
 import 'package:shamo_frontend_rizky/widgets/cart_card.dart';
 import '../../utils/theme.dart';
 
 class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    CartProvider cartprovider = Provider.of<CartProvider>(context);
+
     Widget contentEmpty() {
       return Center(
         child: Column(
@@ -61,14 +63,11 @@ class CartPage extends StatelessWidget {
 
     Widget content() {
       return ListView(
-        children: [
-          CartCard(),
-          // CartCard(),
-          // CartCard(),
-          // CartCard(),
-          // CartCard(),
-          // CartCard(),
-        ],
+        children: cartprovider.carts
+            .map(
+              (cart) => CartCard(cart),
+            )
+            .toList(),
       );
     }
 
@@ -92,7 +91,7 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "\$287,96",
+                    "\$${cartprovider.totalPrice()}",
                     style: PriceTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semiBold,
@@ -157,8 +156,9 @@ class CartPage extends StatelessWidget {
           ),
         ),
       ),
-      body: content(),
-      bottomNavigationBar: CustomNavBar(),
+      body: cartprovider.carts.length == 0 ? contentEmpty() : content(),
+      bottomNavigationBar:
+          cartprovider.carts.length == 0 ? SizedBox() : CustomNavBar(),
     );
   }
 }

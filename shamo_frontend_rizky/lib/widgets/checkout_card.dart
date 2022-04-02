@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/cart_model.dart';
+import 'package:shamo_frontend_rizky/provider/cart_provider.dart';
 import '../../utils/theme.dart';
 
 class CheckoutCard extends StatelessWidget {
-  const CheckoutCard({Key? key}) : super(key: key);
+  final CartModel cart;
+  CheckoutCard(this.cart);
 
   @override
   Widget build(BuildContext context) {
+    CartProvider cartprovider = Provider.of<CartProvider>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 12),
       padding: EdgeInsets.symmetric(
@@ -20,8 +26,8 @@ class CheckoutCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              'assets/image_shoes.png',
+            child: Image.network(
+              cart.product.galleries[0].url,
               width: 60,
             ),
           ),
@@ -31,7 +37,7 @@ class CheckoutCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Terrex Urban Low",
+                  cart.product.name,
                   style: PrimaryTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: semiBold,
@@ -39,7 +45,7 @@ class CheckoutCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  "\$143,98",
+                  "\$${cart.product.price}",
                   style: PriceTextStyle.copyWith(
                     fontSize: 14,
                     fontWeight: regular,
@@ -49,7 +55,7 @@ class CheckoutCard extends StatelessWidget {
             ),
           ),
           Text(
-            "2 Items",
+            "${cart.quantity} Items",
             style: SecondaryTextStyle.copyWith(
               fontSize: 12,
               fontWeight: regular,

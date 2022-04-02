@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/pages/product_page.dart';
 import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
 
 import '../../utils/theme.dart';
@@ -30,9 +31,17 @@ class WishlistCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              product.galleries[0].url,
-              width: 60,
+            child: GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailProduct(product),
+                ),
+              ),
+              child: Image.network(
+                product.galleries[0].url,
+                width: 60,
+              ),
             ),
           ),
           SizedBox(width: 12),

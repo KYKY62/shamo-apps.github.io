@@ -7,9 +7,10 @@ import 'package:shamo_frontend_rizky/pages/checkout_page.dart';
 import 'package:shamo_frontend_rizky/pages/checkout_succes.dart';
 import 'package:shamo_frontend_rizky/pages/detail_chat_page.dart';
 import 'package:shamo_frontend_rizky/pages/edit_profile_page.dart';
-import 'package:shamo_frontend_rizky/pages/product_page.dart';
 import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
+import 'package:shamo_frontend_rizky/provider/cart_provider.dart';
 import 'package:shamo_frontend_rizky/provider/product_provider.dart';
+import 'package:shamo_frontend_rizky/provider/transaction_provider.dart';
 import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
 
 import './pages/signin_page.dart';
@@ -36,6 +37,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => WishListProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => TransactionProvider(),
         )
       ],
       child: MaterialApp(
