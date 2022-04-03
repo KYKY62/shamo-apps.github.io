@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "910419608395",
+    "project_id": "shamo-6ea23",
+    "storage_bucket": "shamo-6ea23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910419608395:android:7b864a6a9baeeb3165dece",
+        "android_client_info": {
+          "package_name": "com.rizky.shamo_frontend_rizky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910419608395-h5r686rsp8nalqrb5lqtpdlt4bnuph7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATFlafLkzrLIpHv1y3pMMVrVeTSi1_N_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910419608395-h5r686rsp8nalqrb5lqtpdlt4bnuph7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
