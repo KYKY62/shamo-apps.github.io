@@ -1,15 +1,43 @@
 // ignore_for_file: non_constant_identifier_names, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:shamo_frontend_rizky/widgets/chat_bubble.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/message_model.dart';
+import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
+import 'package:shamo_frontend_rizky/service/message_service.dart';
 
 import '../utils/theme.dart';
+import '../widgets/chat_bubble.dart';
 
-class DetailChat extends StatelessWidget {
-  const DetailChat({Key? key}) : super(key: key);
+class DetailChat extends StatefulWidget {
+  ProductModel product;
+  DetailChat(this.product);
 
   @override
+  State<DetailChat> createState() => _DetailChatState();
+}
+
+class _DetailChatState extends State<DetailChat> {
+  TextEditingController messageController = TextEditingController(text: '');
+  @override
   Widget build(BuildContext context) {
+    authProvider AuthProvider = Provider.of<authProvider>(context);
+
+    handleAddMessage() async {
+      await MessageService().addMessage(
+        user: AuthProvider.user,
+        isFromUser: true,
+        message: messageController.text,
+        product: widget.product,
+      );
+
+      setState(() {
+        widget.product = UninitializedProductModel();
+        messageController.text = '';
+      });
+    }
+
     Widget ProductPreview() {
       return Container(
           width: 225,
@@ -26,8 +54,8 @@ class DetailChat extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  'assets/image_shoes.png',
+                child: Image.network(
+                  widget.product.galleries[0].url,
                   width: 54,
                   fit: BoxFit.cover,
                 ),
@@ -39,7 +67,7 @@ class DetailChat extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "COURT VISIO...",
+                      widget.product.name,
                       style: PrimaryTextStyle.copyWith(
                         fontSize: 14,
                         fontWeight: regular,
@@ -47,7 +75,7 @@ class DetailChat extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      "\$57,15",
+                      "\$${widget.product.price}",
                       style: PriceTextStyle.copyWith(
                         fontSize: 14,
                         fontWeight: medium,
@@ -56,9 +84,16 @@ class DetailChat extends StatelessWidget {
                   ],
                 ),
               ),
-              Image.asset(
-                "assets/button_x.png",
-                width: 22,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    widget.product = UninitializedProductModel();
+                  });
+                },
+                child: Image.asset(
+                  "assets/button_x.png",
+                  width: 22,
+                ),
               )
             ],
           ));
@@ -72,7 +107,9 @@ class DetailChat extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductPreview(),
+            widget.product is UninitializedProductModel
+                ? SizedBox()
+                : ProductPreview(),
             Row(
               children: [
                 Expanded(
@@ -88,6 +125,8 @@ class DetailChat extends StatelessWidget {
                     ),
                     child: Center(
                         child: TextFormField(
+                      controller: messageController,
+                      autocorrect: false,
                       style: PrimaryTextStyle,
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration.collapsed(
@@ -102,7 +141,7 @@ class DetailChat extends StatelessWidget {
                 ),
                 SizedBox(width: 20),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: handleAddMessage,
                   child: Image.asset(
                     "assets/button_send.png",
                     width: 45,
@@ -116,19 +155,27 @@ class DetailChat extends StatelessWidget {
     }
 
     Widget content() {
-      return ListView(
-        padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        children: [
-          ChatBubble(
-            isSender: true,
-            text: "Hi, This item is still available?",
-            hasProduct: true,
-          ),
-          ChatBubble(
-            isSender: false,
-            text: "Good night, This item is only available in size 42 and 43",
-          ),
-        ],
+      return StreamBuilder<List<MessageModel>>(
+        stream:
+            MessageService().getMessagesByUserId(userId: AuthProvider.user.id),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              children: snapshot.data!
+                  .map((MessageModel message) => ChatBubble(
+                        isSender: message.isFromUser,
+                        text: message.message,
+                        product: message.product,
+                      ))
+                  .toList(),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       );
     }
 

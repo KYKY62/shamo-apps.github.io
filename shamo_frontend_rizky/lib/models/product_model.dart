@@ -46,9 +46,11 @@ class ProductModel {
       'description': description,
       'tags': tags,
       'category': category.tojson(),
-      'createdAt': createdAt.toString(),
-      'updatedAt': updatedAt.toString(),
+      'created_at': createdAt.toString(),
+      'updated_at': updatedAt.toString(),
       'galleries': galleries.map((gallery) => gallery.tojson()).toList(),
     };
   }
 }
+
+class UninitializedProductModel extends ProductModel {}

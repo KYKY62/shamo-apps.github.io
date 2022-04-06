@@ -1,6 +1,11 @@
 // ignore_for_file: use_key_in_widget_constructors, non_constant_identifier_names, prefer_const_constructors, unused_element, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shamo_frontend_rizky/models/message_model.dart';
+import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
+import 'package:shamo_frontend_rizky/provider/page_provider.dart';
+import 'package:shamo_frontend_rizky/service/message_service.dart';
 import 'package:shamo_frontend_rizky/widgets/chat_tile.dart';
 
 import '../../utils/theme.dart';
@@ -8,6 +13,9 @@ import '../../utils/theme.dart';
 class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    authProvider AuthProvider = Provider.of<authProvider>(context);
+    PageProvider pageProvider = Provider.of<PageProvider>(context);
+
     Widget Header() {
       return AppBar(
         backgroundColor: BackgroundColor1,
@@ -61,7 +69,9 @@ class ChatPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      pageProvider.currentIndex = 0;
+                    },
                     child: Text(
                       "Explore Store",
                       style: PrimaryTextStyle.copyWith(
@@ -77,23 +87,32 @@ class ChatPage extends StatelessWidget {
     }
 
     Widget content() {
-      return Expanded(
-          child: Container(
-        width: double.infinity,
-        color: BackgroundColor3,
-        child: ListView(
-          padding: EdgeInsets.symmetric(
-            horizontal: defaultMargin,
-          ),
-          children: [
-            ChatTile(),
-            ChatTile(),
-            ChatTile(),
-            ChatTile(),
-            ChatTile(),
-          ],
-        ),
-      ));
+      return StreamBuilder<List<MessageModel>>(
+          stream: MessageService()
+              .getMessagesByUserId(userId: AuthProvider.user.id),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.length == 0) {
+                return EmptyMsg();
+              }
+
+              return Expanded(
+                  child: Container(
+                width: double.infinity,
+                color: BackgroundColor3,
+                child: ListView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: defaultMargin,
+                  ),
+                  children: [
+                    ChatTile(snapshot.data![snapshot.data!.length - 1]),
+                  ],
+                ),
+              ));
+            } else {
+              return EmptyMsg();
+            }
+          });
     }
 
     return Column(

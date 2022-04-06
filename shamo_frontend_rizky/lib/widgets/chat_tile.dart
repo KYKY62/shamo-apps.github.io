@@ -1,16 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:shamo_frontend_rizky/models/message_model.dart';
+import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/pages/detail_chat_page.dart';
 
 import '../../utils/theme.dart';
 
 class ChatTile extends StatelessWidget {
-  const ChatTile({Key? key}) : super(key: key);
+  final MessageModel message;
+  ChatTile(this.message);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/DetailChat'),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DetailChat(UninitializedProductModel()),
+        ),
+      ),
       child: Container(
         margin: EdgeInsets.only(
           top: 33,
@@ -36,7 +45,7 @@ class ChatTile extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "Good night, This item is on...",
+                        message.message,
                         style: SecondaryTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: light,

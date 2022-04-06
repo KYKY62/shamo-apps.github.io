@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shamo_frontend_rizky/pages/cart_page.dart';
 import 'package:shamo_frontend_rizky/pages/checkout_page.dart';
 import 'package:shamo_frontend_rizky/pages/checkout_succes.dart';
@@ -9,6 +10,7 @@ import 'package:shamo_frontend_rizky/pages/detail_chat_page.dart';
 import 'package:shamo_frontend_rizky/pages/edit_profile_page.dart';
 import 'package:shamo_frontend_rizky/provider/auth_provider.dart';
 import 'package:shamo_frontend_rizky/provider/cart_provider.dart';
+import 'package:shamo_frontend_rizky/provider/page_provider.dart';
 import 'package:shamo_frontend_rizky/provider/product_provider.dart';
 import 'package:shamo_frontend_rizky/provider/transaction_provider.dart';
 import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
@@ -18,7 +20,9 @@ import './pages/splash_page.dart';
 import './pages/signup_page.dart';
 import './pages/home/main_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -43,6 +47,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => TransactionProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => PageProvider(),
         )
       ],
       child: MaterialApp(
@@ -52,7 +59,6 @@ class MyApp extends StatelessWidget {
           '/signPage': (context) => SigninPage(),
           '/signupPage': (context) => SignUpPage(),
           '/mainPage': (context) => MainPage(),
-          '/DetailChat': (context) => DetailChat(),
           '/editProfile': (context) => EditProfile(),
           '/cartPage': (context) => CartPage(),
           '/checkout': (context) => CheckOutPage(),

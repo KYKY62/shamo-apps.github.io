@@ -1,18 +1,19 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, must_be_immutable, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, must_be_immutable, prefer_typing_uninitialized_variables, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:shamo_frontend_rizky/models/product_model.dart';
 
 import '../utils/theme.dart';
 
 class ChatBubble extends StatelessWidget {
   final String text;
-  bool isSender;
-  final hasProduct;
+  final bool isSender;
+  final ProductModel product;
 
   ChatBubble({
     this.isSender = false,
-    this.text = '',
-    this.hasProduct = false,
+    required this.text,
+    required this.product,
   });
 
   @override
@@ -37,8 +38,8 @@ class ChatBubble extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    'assets/image_shoes.png',
+                  child: Image.network(
+                    product.galleries[0].url,
                     width: 70,
                   ),
                 ),
@@ -48,7 +49,7 @@ class ChatBubble extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "COURT VISION 2.0 SHOES",
+                        product.name,
                         style: PrimaryTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: regular,
@@ -56,7 +57,7 @@ class ChatBubble extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        "\$57,15",
+                        "\$${product.price}",
                         style: PriceTextStyle.copyWith(
                           fontSize: 14,
                           fontWeight: medium,
@@ -122,7 +123,7 @@ class ChatBubble extends StatelessWidget {
         crossAxisAlignment:
             isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
-          hasProduct ? productPreview() : SizedBox(),
+          product is UninitializedProductModel ? SizedBox() : productPreview(),
           Row(
             mainAxisAlignment:
                 isSender ? MainAxisAlignment.end : MainAxisAlignment.start,

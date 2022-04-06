@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shamo_frontend_rizky/models/product_model.dart';
+import 'package:shamo_frontend_rizky/pages/detail_chat_page.dart';
 import 'package:shamo_frontend_rizky/provider/cart_provider.dart';
 import 'package:shamo_frontend_rizky/provider/wishlist_provider.dart';
 
@@ -391,7 +392,12 @@ class _DetailProductState extends State<DetailProduct> {
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/DetailChat'),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailChat(widget.product),
+                      ),
+                    ),
                     child: Container(
                       width: 54,
                       height: 54,
